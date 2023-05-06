@@ -13,7 +13,10 @@ in your php file, and then call the class as such:
     echo $password->generate('words.sqlite', 2, 1);
     
 Where words.sqlite is a database with a table named "words" and a single column named "word". 
+
 The two digits are for length (number of words used) and complexity (either less/equal or bigger than 1, randomizes upper/lower/proper case words aswell as each special character.
+
+To generate the sqlite word list, just create an csv list of words and import it to an SQLite editor (I used DB Browser).
 
 The project has a [public website](https://algures.pt/projects/hpg/) and you can fetch your own passwords [here](https://algures.pt/projects/hpg/generator.php). 
 
