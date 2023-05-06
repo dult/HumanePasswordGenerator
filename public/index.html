@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" >
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, height=device-height">
+
+		<meta http-equiv="Cache-Control" content="no-cache" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Expires" content="0" />
+
+		<link rel="shortcut icon" href="favicon.png">
+
+		<title>Humane Password Generator</title>
+
+		<meta content="A secure password generator that people can remember" name="description">
+		<meta content="password generator"  name="keywords">
+		<meta content="DuLt Nuno Pinto" name="author">
+		
+		<style>
+		    /*@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap');*/
+            @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+			:root {
+				--white: #ffffff;
+				--white75: rgba( 255, 255, 255, 0.75 );
+				--black: #000000;
+				--black75: rgba( 0, 0, 0, 0.75 );
+				--black25: rgba( 0, 0, 0, 0.25 );
+				--accent: #3169a2;
+			}
+			*,
+			*:after,
+			*:before {
+				box-sizing: border-box;
+			}
+			::-webkit-scrollbar {
+                width: 0.5rem;
+            }
+            ::-webkit-scrollbar-track {
+                background: var(--white);
+            }
+            ::-webkit-scrollbar-thumb {
+                background: var(--accent);
+            }
+            * {
+              scrollbar-color: var(--accent) var(--white);
+              scrollbar-width: thin;
+            }
+			a,
+			a:visited,
+			a:hover,
+			a:active {
+				color: var(--accent);
+			}
+			html,
+			body {
+			    
+	            font-family: 'Ubuntu Mono', monospace;
+                font-family: 'Courier Prime', monospace;
+				width: 100%;
+				height: 100%;
+				padding: 0;
+				margin: 0;
+				font-size: 16px;
+				background-image: url(bg.png);
+				background-size: auto 100vh;
+				animation: 15s background-slide linear infinite;
+			}
+			@keyframes background-slide {
+				from	{background-position-y: 100vh};
+				to	{background-position-y: 0vh};
+			}
+			h1 {
+				margin: 0 0 1rem 0;
+				text-align: center;
+			}
+			body {
+				padding: 1rem;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			main {
+				min-width: calc(100% / 3);
+				max-width: calc(100% / 2);
+				max-height: 100%;
+				box-shadow: 0.5rem 0.5rem 0rem var(--black);
+				padding: 1rem;
+				background: var(--white);
+			}
+			form {
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+				align-items: flex-end;
+			}
+			label {
+				font-size: 0.75rem;
+				margin-right: 0.5rem;
+			}
+			select,
+			button {
+				margin: 0.25rem 0 1rem 0;
+				border: 2px var(--black) solid;
+				background: var(--white);
+				color: var(--black);
+				border-radius: 0.5rem;
+				padding: 0.25rem 0.5rem;
+				text-align: left;
+				cursor: pointer;
+			}
+			select:hover,
+			button:hover {
+				
+				background: var(--accent);
+				color: var(--white);
+			}
+			section {
+				text-align: center;
+				
+			}
+			section aside {
+				width: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 1rem;
+				height: 4rem;
+				word-break: break-all;
+				margin:  0 0 1rem 0;
+				background: var(--white);
+				border: 2px dashed var(--black);
+				cursor: pointer;
+				transition: background 1s ease;
+			}
+			section aside:active {
+				background: var(--accent);
+				transition: background 0s ease;
+			}
+			details {
+				margin: 1rem 0;
+			}
+			summary {
+				font-weight: bold;
+				text-align: center;
+				cursor: pointer;
+			}
+			footer {
+				font-weight: bold;
+				text-align: center;
+			}
+			audio {
+				display: none;
+			}
+			@media (orientation: portrait) {
+				body {
+					overflow: auto;
+					height: auto;
+					min-height: 100%;
+				}
+				main {
+					max-width: 100%;
+					max-height: initial;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<h1>Humane Password Generator</h1>
+			<article>
+				<form>
+					<label>Size<br>
+						<select name="length" id="length">
+							<option value="1">Too Short</option>
+							<option value="2" selected>Short</option>
+							<option value="3">Medium</option>
+							<option value="4">Long</option>
+							<option value="5">Biggest</option>
+						</select>
+					</label>
+					<label>Complexity<br>
+						<select name="complexity" id="complexity">
+							<option value="1" selected>Simple</option>
+							<option value="2">Complex</option>
+						</select>
+					</label>
+					<button id="generate" type="button">Generate</button>
+				</form>
+				<section>
+					<label>Click/touch to copy</label>
+					<aside id="password"></aside>
+				</section>
+				<details>
+					<summary id="about">About</summary>
+					<p>H.P.G. is a password generator designed to create easy to remember and secure passwords.</p>
+					<p>It's based on XKCD's comic <a href="https://xkcd.com/936/" target="_blank">936 "Password Strength"</a> with some changes to make passwords compliant with most websites security demands.</p>
+					<p>The word list used is the <a href="https://diginoodles.com/projects/eowl" target="_blank">“English Open Word List” (EOWL)</a>, developed by Ken Loge and is almost entirely derived from the “UK Advanced Cryptics Dictionary” (UKACD) Version 1.6, by J Ross Beresford.</p>
+					<p>UK Advanced Cryptics Dictionary Licensing Information:<br>Copyright © J Ross Beresford 1993-1999. All Rights Reserved. The following restriction is placed on the use of this publication: if the UK Advanced Cryptics Dictionary is used in a software package or redistributed in any form, the copyright notice must be prominently displayed and the text of this document must be included verbatim.</p>
+					<p>Sound effects generated by <a href="https://sfxr.me/" target="_blank">JSFXR</a>.<br> If you find the SFX annoying mute this browser tab.</p>
+					<p>H.P.G.'s Github <a href="https://github.com/dult/HumanePasswordGenerator" target="_blank">here</a>!</p>
+				</details>
+			</article>
+			<footer>© 2023 <a href="https://www.algures.pt" target="_blank">DuLt Nuno Pinto</a></footer>
+		</main>
+		
+		<audio id="click" src="click.mp3"></audio>
+		<audio id="copy" src="copy.mp3"></audio>
+		<audio id="open" src="open.mp3"></audio>
+		<script>
+			function generate() {
+				let l = document.querySelector( '#length' ).value;
+				let c = document.querySelector( '#complexity' ).value;
+				fetch( 'generator.php?l=' + l + '&c=' + c ).then( function( response ) {
+					return response.text();
+				}).then( function( text ) {
+					document.querySelector( '#password' ).innerHTML = text;
+				});
+				let click = document.querySelector( '#click' );
+				click.currentTime = 0;
+				click.play();
+			}
+			function copy() {
+				let password = document.querySelector( '#password' ).textContent;
+				navigator.clipboard.writeText( password );
+				
+				let copy = document.querySelector( '#copy' );
+				copy.currentTime = 0;
+				copy.play();
+			}
+			function open() {
+				let open = document.querySelector( '#open' );
+				open.currentTime = 0;
+				open.play();
+			}
+			document.querySelector( '#generate' ).addEventListener( 'click', generate );
+			document.querySelector( '#password' ).addEventListener( 'click', copy );
+			document.querySelector( '#about' ).addEventListener( 'click', open );
+			generate();
+		</script>
+	</body>
+</html>
