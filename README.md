@@ -4,10 +4,14 @@ A website and php class to generate easy to remember and SAFE passwords.
 It generates password from a word list, concatenating them with random special characters between them and some digits at the end.
 
 To use H.P.G., just: 
+
     require( 'hpg.php' );
+    
 in your php file, and then call the class as such:
+
     $password = new HPG();
     echo $password->generate('words.sqlite', 2, 1);
+    
 Where words.sqlite is a database with a table named "words" and a single column named "word". 
 The two digits are for length (number of words used) and complexity (either less/equal or bigger than 1, randomizes upper/lower/proper case words aswell as each special character.
 
